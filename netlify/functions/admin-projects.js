@@ -1,55 +1,26 @@
-const fs = require('fs').promises;
-const path = require('path');
-const { v4: uuidv4 } = require('uuid');
+const { getStore } = require('@netlify/blobs');
 
-const PROJECTS_FILE = path.join(process.cwd(), 'data', 'projects.json');
-
-async function ensureDataDir() {
-    const dataDir = path.dirname(PROJECTS_FILE);
-    try {
-        await fs.access(dataDir);
-    } catch (error) {
-        await fs.mkdir(dataDir, { recursive: true });
-    }
-}
-
-async function readProjects() {
-    try {
-        await fs.access(PROJECTS_FILE);
-        const data = await fs.readFile(PROJECTS_FILE, 'utf8');
-        return JSON.parse(data);
-    } catch (error) {
-        return [];
-    }
-}
-
-async function writeProjects(projects) {
-    await ensureDataDir();
-    await fs.writeFile(PROJECTS_FILE, JSON.stringify(projects, null, 2));
+function generateId() {
+    return 'project-' + Date.now() + '-' + Math.random().toString(36).substr(2, 9);
 }
 
 exports.handler = async (event, context) => {
-    // CORS Headers
     const headers = {
         'Access-Control-Allow-Origin': '*',
         'Access-Control-Allow-Headers': 'Content-Type',
         'Access-Control-Allow-Methods': 'POST, PUT, DELETE, OPTIONS',
     };
 
-    // Handle preflight requests
     if (event.httpMethod === 'OPTIONS') {
-        return {
-            statusCode: 200,
-            headers,
-            body: '',
-        };
+        return { statusCode: 200, headers, body: '' };
     }
 
     try {
-        const projects = await readProjects();
+        const store = getStore('portfolio-projects');
+        const projectsData = await store.get('projects');
+        let projects = projectsData ? JSON.parse(projectsData) : [];
 
         if (event.httpMethod === 'POST') {
-            // Create new project
             const { name, description, github, demo } = JSON.parse(event.body);
 
             if (!name || !description || !github) {
@@ -61,7 +32,7 @@ exports.handler = async (event, context) => {
             }
 
             const newProject = {
-                id: uuidv4(),
+                id: generateId(),
                 name,
                 description,
                 github,
@@ -70,7 +41,7 @@ exports.handler = async (event, context) => {
             };
 
             projects.push(newProject);
-            await writeProjects(projects);
+            await store.set('projects', JSON.stringify(projects));
 
             return {
                 statusCode: 201,
@@ -80,7 +51,6 @@ exports.handler = async (event, context) => {
         }
 
         if (event.httpMethod === 'PUT') {
-            // Update existing project
             const { id, name, description, github, demo } = JSON.parse(event.body);
 
             if (!id || !name || !description || !github) {
@@ -109,7 +79,7 @@ exports.handler = async (event, context) => {
                 updatedAt: new Date().toISOString(),
             };
 
-            await writeProjects(projects);
+            await store.set('projects', JSON.stringify(projects));
 
             return {
                 statusCode: 200,
@@ -119,7 +89,6 @@ exports.handler = async (event, context) => {
         }
 
         if (event.httpMethod === 'DELETE') {
-            // Delete project
             const { id } = JSON.parse(event.body);
 
             if (!id) {
@@ -140,7 +109,7 @@ exports.handler = async (event, context) => {
             }
 
             projects.splice(projectIndex, 1);
-            await writeProjects(projects);
+            await store.set('projects', JSON.stringify(projects));
 
             return {
                 statusCode: 200,

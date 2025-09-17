@@ -1,0 +1,10 @@
+[
+  {
+    "id": "example-project-1",
+    "name": "Beispiel Projekt",
+    "description": "Dies ist ein Beispielprojekt, um die Funktionalität zu demonstrieren.",
+    "github": "https://github.com/username/example-project",
+    "demo": "https://example-project-demo.netlify.app",
+    "createdAt": "2025-01-01T00:00:00.000Z"
+  }
+]

@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin - Portfolio</title>
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body class="light-mode">
+<div class="theme-switch">
+    <button id="theme-toggle" class="theme-button">
+        <span class="sun-icon">☀️</span>
+        <span class="moon-icon">🌙</span>
+    </button>
+</div>
+
+<div class="container">
+    <div id="login-section" class="login-section">
+        <div class="login-card">
+            <h1 class="login-title">Admin Login</h1>
+            <form id="login-form" class="login-form">
+                <input type="password" id="password" placeholder="Admin-Passwort" required class="login-input">
+                <button type="submit" class="login-button">Einloggen</button>
+            </form>
+            <div id="login-error" class="error-message"></div>
+        </div>
+    </div>
+
+    <div id="admin-section" class="admin-section" style="display: none;">
+        <header class="page-header">
+            <button id="logout-btn" class="back-button">Logout</button>
+            <h1 class="page-title">Projekt-Verwaltung</h1>
+        </header>
+
+        <main class="main-content">
+            <div class="admin-controls">
+                <button id="add-project-btn" class="add-button">+ Neues Projekt</button>
+            </div>
+
+            <div id="project-form" class="project-form" style="display: none;">
+                <h3 id="form-title">Neues Projekt hinzufügen</h3>
+                <form id="project-edit-form">
+                    <input type="hidden" id="project-id">
+                    <div class="form-group">
+                        <label for="project-name">Projektname:</label>
+                        <input type="text" id="project-name" required class="form-input">
+                    </div>
+                    <div class="form-group">
+                        <label for="project-description">Beschreibung:</label>
+                        <textarea id="project-description" required class="form-textarea"></textarea>
+                    </div>
+                    <div class="form-group">
+                        <label for="project-github">GitHub Repository:</label>
+                        <input type="url" id="project-github" required class="form-input">
+                    </div>
+                    <div class="form-group">
+                        <label for="project-demo">Demo-Link:</label>
+                        <input type="url" id="project-demo" class="form-input">
+                    </div>
+                    <div class="form-buttons">
+                        <button type="submit" class="save-button">Speichern</button>
+                        <button type="button" id="cancel-btn" class="cancel-button">Abbrechen</button>
+                    </div>
+                </form>
+            </div>
+
+            <div id="admin-projects-grid" class="admin-projects-grid">
+                <div class="loading">Projekte werden geladen...</div>
+            </div>
+        </main>
+    </div>
+</div>
+
+<script src="js/admin.js"></script>
+</body>
+</html>

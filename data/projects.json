@@ -1,16 +1,8 @@
 [
   {
-    "id": "example-project-1",
-    "name": "Beispiel Projekt",
-    "description": "Dies ist ein Beispielprojekt, um die FunktionalitÃ¤t zu demonstrieren.",
-    "github": "https://github.com/username/example-project",
-    "demo": "https://example-project-demo.netlify.app",
-    "createdAt": "2025-01-01T00:00:00.000Z"
-  },
-  {
     "id": "project-1758137985518-jipcrimhz",
     "name": "E1-Series Schul Projekt",
-    "description": "Für die Berufsschule habe ich eine Webseite erstellt, diese befasst sich ums Thema E1 Series. \nIch habe JavaScript, HTML sowie CSS für diese Webseite genutzt.",
+    "description": "FÃ¼r die Berufsschule habe ich eine Webseite erstellt, diese befasst sich ums Thema E1 Series. \nIch habe JavaScript, HTML sowie CSS fÃ¼r diese Webseite genutzt.",
     "github": "https://github.com/noebachofner/E1-Series",
     "demo": "https://e1-series.netlify.app/",
     "createdAt": "2025-09-17T19:39:45.518Z",

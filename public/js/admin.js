@@ -5,6 +5,23 @@ document.addEventListener('DOMContentLoaded', function() {
     const savedTheme = localStorage.getItem('theme') || 'light';
     body.className = savedTheme + '-mode';
 
+    // Moderne UTF-8 Base64 Encoding/Decoding Funktionen
+    function utf8ToBase64(str) {
+        const encoder = new TextEncoder();
+        const data = encoder.encode(str);
+        return btoa(String.fromCharCode(...data));
+    }
+
+    function base64ToUtf8(base64) {
+        const binary = atob(base64);
+        const bytes = new Uint8Array(binary.length);
+        for (let i = 0; i < binary.length; i++) {
+            bytes[i] = binary.charCodeAt(i);
+        }
+        const decoder = new TextDecoder();
+        return decoder.decode(bytes);
+    }
+
     themeToggle.addEventListener('click', function() {
         if (body.classList.contains('light-mode')) {
             body.className = 'dark-mode';
@@ -137,7 +154,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
             if (response.ok) {
                 const data = await response.json();
-                const content = atob(data.content);
+                const content = base64ToUtf8(data.content);
                 return { projects: JSON.parse(content), sha: data.sha };
             } else {
                 // File doesn't exist, return default
@@ -167,7 +184,7 @@ document.addEventListener('DOMContentLoaded', function() {
         }
 
         try {
-            const content = btoa(JSON.stringify(projects, null, 2));
+            const content = utf8ToBase64(JSON.stringify(projects, null, 2));
 
             const body = {
                 message: 'Update projects.json via admin panel',

@@ -18,7 +18,7 @@ document.addEventListener('DOMContentLoaded', function() {
     // GitHub API Configuration - HIER ANPASSEN!
     const GITHUB_OWNER = 'noebachofner08'; // Ihr GitHub Username
     const GITHUB_REPO = 'my-own.website';      // Ihr Repository Name
-    const ADMIN_PASSWORD_HASH = 'be661754b9988824a7420189d47bbe54c50f582b1a3544646300c94534cac243';
+    const ADMIN_PASSWORD_HASH = 'ecd71870d1963316a97e3ac3408c9835ad8cf0f3c1bc703527c30265534f75ae';
 
     // Elements
     const loginSection = document.getElementById('login-section');

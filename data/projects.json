@@ -6,5 +6,13 @@
     "github": "https://github.com/username/example-project",
     "demo": "https://example-project-demo.netlify.app",
     "createdAt": "2025-01-01T00:00:00.000Z"
+  },
+  {
+    "id": "project-1758137985518-jipcrimhz",
+    "name": "Test",
+    "description": "Test",
+    "github": "https://github.com/noebachofner/E1-Series",
+    "demo": "https://e1-series.netlify.app/",
+    "createdAt": "2025-09-17T19:39:45.518Z"
   }
 ]

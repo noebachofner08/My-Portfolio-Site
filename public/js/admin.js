@@ -15,6 +15,11 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     });
 
+    // GitHub API Configuration - HIER ANPASSEN!
+    const GITHUB_OWNER = 'noebachofner08'; // Ihr GitHub Username
+    const GITHUB_REPO = 'my-own.website';      // Ihr Repository Name
+    const ADMIN_PASSWORD_HASH = '0eca638a7c39bff0f64727ef912c7c3b9627d4ffff8779e385665f12aba850d9';
+
     // Elements
     const loginSection = document.getElementById('login-section');
     const adminSection = document.getElementById('admin-section');
@@ -34,31 +39,29 @@ document.addEventListener('DOMContentLoaded', function() {
     }
 
     // Login Form
-    loginForm.addEventListener('submit', async function(e) {
+    loginForm.addEventListener('submit', function(e) {
         e.preventDefault();
         const password = document.getElementById('password').value;
 
-        try {
-            const response = await fetch('/.netlify/functions/auth', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify({ password }),
-            });
-
-            const result = await response.json();
-
-            if (result.success) {
+        // Hash password and compare
+        hashPassword(password).then(hashedPassword => {
+            if (hashedPassword === ADMIN_PASSWORD_HASH) {
                 sessionStorage.setItem('adminLoggedIn', 'true');
                 showAdminSection();
             } else {
                 loginError.textContent = 'Falsches Passwort';
             }
-        } catch (error) {
-            loginError.textContent = 'Verbindungsfehler. Bitte versuchen Sie es erneut.';
-        }
+        });
     });
+
+    // Password hashing function
+    async function hashPassword(password) {
+        const encoder = new TextEncoder();
+        const data = encoder.encode(password);
+        const hashBuffer = await crypto.subtle.digest('SHA-256', data);
+        const hashArray = Array.from(new Uint8Array(hashBuffer));
+        return hashArray.map(b => b.toString(16).padStart(2, '0')).join('');
+    }
 
     // Logout
     logoutBtn.addEventListener('click', function() {
@@ -77,9 +80,9 @@ document.addEventListener('DOMContentLoaded', function() {
     });
 
     // Project Form Submit
-    projectEditForm.addEventListener('submit', async function(e) {
+    projectEditForm.addEventListener('submit', function(e) {
         e.preventDefault();
-        await saveProject();
+        saveProject();
     });
 
     function showLoginSection() {
@@ -127,6 +130,70 @@ document.addEventListener('DOMContentLoaded', function() {
         projectForm.style.display = 'none';
     }
 
+    // GitHub API Functions
+    async function getProjectsFromGitHub() {
+        try {
+            const response = await fetch(`https://api.github.com/repos/${GITHUB_OWNER}/${GITHUB_REPO}/contents/data/projects.json`);
+
+            if (response.ok) {
+                const data = await response.json();
+                const content = atob(data.content);
+                return { projects: JSON.parse(content), sha: data.sha };
+            } else {
+                // File doesn't exist, return default
+                const defaultProjects = [
+                    {
+                        id: 'example-project-1',
+                        name: 'Beispiel Projekt',
+                        description: 'Dies ist ein Beispielprojekt, um die Funktionalität zu demonstrieren.',
+                        github: 'https://github.com/username/example-project',
+                        demo: 'https://example-project-demo.netlify.app',
+                        createdAt: new Date().toISOString()
+                    }
+                ];
+                return { projects: defaultProjects, sha: null };
+            }
+        } catch (error) {
+            console.error('Error loading projects from GitHub:', error);
+            return { projects: [], sha: null };
+        }
+    }
+
+    async function saveProjectsToGitHub(projects, sha) {
+        const GH_TOKEN = prompt('GitHub Personal Access Token eingeben (wird nur für diesen Vorgang verwendet):');
+        if (!GH_TOKEN) {
+            alert('GitHub Token benötigt für das Speichern.');
+            return false;
+        }
+
+        try {
+            const content = btoa(JSON.stringify(projects, null, 2));
+
+            const body = {
+                message: 'Update projects.json via admin panel',
+                content: content
+            };
+
+            if (sha) {
+                body.sha = sha;
+            }
+
+            const response = await fetch(`https://api.github.com/repos/${GITHUB_OWNER}/${GITHUB_REPO}/contents/data/projects.json`, {
+                method: 'PUT',
+                headers: {
+                    'Authorization': `token ${GH_TOKEN}`,
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(body)
+            });
+
+            return response.ok;
+        } catch (error) {
+            console.error('Error saving to GitHub:', error);
+            return false;
+        }
+    }
+
     async function saveProject() {
         const projectId = document.getElementById('project-id').value;
         const projectData = {
@@ -137,29 +204,39 @@ document.addEventListener('DOMContentLoaded', function() {
         };
 
         try {
-            const url = '/.netlify/functions/admin-projects';
-            const method = projectId ? 'PUT' : 'POST';
-            const body = projectId
-                ? JSON.stringify({ id: projectId, ...projectData })
-                : JSON.stringify(projectData);
+            const { projects, sha } = await getProjectsFromGitHub();
 
-            const response = await fetch(url, {
-                method,
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body,
-            });
+            if (projectId) {
+                // Update existing project
+                const projectIndex = projects.findIndex(p => p.id === projectId);
+                if (projectIndex !== -1) {
+                    projects[projectIndex] = {
+                        ...projects[projectIndex],
+                        ...projectData,
+                        updatedAt: new Date().toISOString(),
+                    };
+                }
+            } else {
+                // Create new project
+                const newProject = {
+                    id: generateId(),
+                    ...projectData,
+                    createdAt: new Date().toISOString(),
+                };
+                projects.push(newProject);
+            }
 
-            if (response.ok) {
+            const success = await saveProjectsToGitHub(projects, sha);
+            if (success) {
                 hideProjectForm();
                 loadAdminProjects();
+                alert('Projekt erfolgreich gespeichert! Die Änderungen sind in 1-2 Minuten sichtbar.');
             } else {
                 alert('Fehler beim Speichern des Projekts');
             }
         } catch (error) {
             console.error('Error saving project:', error);
-            alert('Verbindungsfehler beim Speichern');
+            alert('Fehler beim Speichern des Projekts');
         }
     }
 
@@ -169,33 +246,25 @@ document.addEventListener('DOMContentLoaded', function() {
         }
 
         try {
-            const response = await fetch('/.netlify/functions/admin-projects', {
-                method: 'DELETE',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify({ id: projectId }),
-            });
+            const { projects, sha } = await getProjectsFromGitHub();
+            const filteredProjects = projects.filter(p => p.id !== projectId);
 
-            if (response.ok) {
+            const success = await saveProjectsToGitHub(filteredProjects, sha);
+            if (success) {
                 loadAdminProjects();
+                alert('Projekt erfolgreich gelöscht! Die Änderungen sind in 1-2 Minuten sichtbar.');
             } else {
                 alert('Fehler beim Löschen des Projekts');
             }
         } catch (error) {
             console.error('Error deleting project:', error);
-            alert('Verbindungsfehler beim Löschen');
+            alert('Fehler beim Löschen des Projekts');
         }
     }
 
     async function loadAdminProjects() {
         try {
-            const response = await fetch('/.netlify/functions/projects');
-            if (!response.ok) {
-                throw new Error('Fehler beim Laden der Projekte');
-            }
-
-            const projects = await response.json();
+            const { projects } = await getProjectsFromGitHub();
             displayAdminProjects(projects);
         } catch (error) {
             console.error('Error loading admin projects:', error);
@@ -232,19 +301,19 @@ document.addEventListener('DOMContentLoaded', function() {
         `).join('');
     }
 
+    // Helper Functions
+    function generateId() {
+        return 'project-' + Date.now() + '-' + Math.random().toString(36).substr(2, 9);
+    }
+
     // Global functions for button clicks
     window.editProject = function(projectId) {
-        fetch('/.netlify/functions/projects')
-            .then(response => response.json())
-            .then(projects => {
-                const project = projects.find(p => p.id === projectId);
-                if (project) {
-                    showProjectForm(project);
-                }
-            })
-            .catch(error => {
-                console.error('Error loading project for editing:', error);
-            });
+        getProjectsFromGitHub().then(({ projects }) => {
+            const project = projects.find(p => p.id === projectId);
+            if (project) {
+                showProjectForm(project);
+            }
+        });
     };
 
     window.deleteProject = deleteProject;

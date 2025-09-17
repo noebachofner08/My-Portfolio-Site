@@ -21,17 +21,36 @@ document.addEventListener('DOMContentLoaded', function() {
         window.location.href = 'index.html';
     });
 
+    // GitHub Configuration - HIER ANPASSEN!
+    const GITHUB_OWNER = 'noebachofner08'; // Ihr GitHub Username
+    const GITHUB_REPO = 'my-own-website';      // Ihr Repository Name
+
     // Load Projects
     loadProjects();
 
     async function loadProjects() {
         try {
-            const response = await fetch('/.netlify/functions/projects');
-            if (!response.ok) {
-                throw new Error('Fehler beim Laden der Projekte');
+            const response = await fetch(`https://api.github.com/repos/${GITHUB_OWNER}/${GITHUB_REPO}/contents/data/projects.json`);
+
+            let projects = [];
+            if (response.ok) {
+                const data = await response.json();
+                const content = atob(data.content);
+                projects = JSON.parse(content);
+            } else {
+                // Default project if file doesn't exist
+                projects = [
+                    {
+                        id: 'example-project-1',
+                        name: 'Beispiel Projekt',
+                        description: 'Dies ist ein Beispielprojekt, um die Funktionalität zu demonstrieren.',
+                        github: 'https://github.com/username/example-project',
+                        demo: 'https://example-project-demo.netlify.app',
+                        createdAt: new Date().toISOString()
+                    }
+                ];
             }
 
-            const projects = await response.json();
             displayProjects(projects);
         } catch (error) {
             console.error('Error loading projects:', error);

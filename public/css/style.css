@@ -201,6 +201,7 @@ body.dark-mode .theme-button {
     transition: var(--transition);
     background-color: var(--card-light);
     border: 1px solid var(--border-light);
+    width: 225px;
 }
 
 body.dark-mode .social-link {

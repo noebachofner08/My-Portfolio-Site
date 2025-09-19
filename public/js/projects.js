@@ -38,14 +38,6 @@ document.addEventListener('DOMContentLoaded', function() {
         window.location.href = 'index.html';
     });
 
-    // Contact Button
-    const contactBtn = document.getElementById('contact-btn');
-    if (contactBtn) {
-        contactBtn.addEventListener('click', function() {
-            window.location.href = 'contact.html';
-        });
-    }
-
     // GitHub Configuration
     const GITHUB_OWNER = 'noebachofner08';
     const GITHUB_REPO = 'my-own-website';
@@ -63,7 +55,6 @@ document.addEventListener('DOMContentLoaded', function() {
                 const content = base64ToUtf8(data.content);
                 projects = JSON.parse(content);
             } else {
-                // Default project if file doesn't exist
                 projects = [
                     {
                         id: 'example-project-1',

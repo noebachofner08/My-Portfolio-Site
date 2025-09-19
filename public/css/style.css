@@ -1,16 +1,17 @@
 :root {
     --light-bg: #ebeae1;
-    --dark-bg: #403e39;
+    --dark-bg: #1a1a1a;
     --accent: #4a1524;
     --text-light: #333333;
-    --text-dark: #ffffff;
+    --text-dark: #e8e8e8;
     --card-light: #ffffff;
-    --card-dark: #2d2b26;
+    --card-dark: #242424;
     --border-light: #e0e0e0;
-    --border-dark: #555;
+    --border-dark: #383838;
     --font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
     --border-radius: 12px;
     --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    --accent-hover: #6b1f36;
 }
 
 * {
@@ -37,7 +38,7 @@ body.light-mode .card {
     border: 1px solid var(--border-light);
 }
 
-/* Dark Mode */
+/* Dark Mode - Modernisiert */
 body.dark-mode {
     background-color: var(--dark-bg);
     color: var(--text-dark);
@@ -46,6 +47,11 @@ body.dark-mode {
 body.dark-mode .card {
     background-color: var(--card-dark);
     border: 1px solid var(--border-dark);
+}
+
+body.dark-mode .hero-description,
+body.dark-mode .project-description {
+    color: #b8b8b8;
 }
 
 /* Theme Switch */
@@ -57,7 +63,7 @@ body.dark-mode .card {
 }
 
 .theme-button {
-    background: none;
+    background: rgba(255, 255, 255, 0.9);
     border: none;
     font-size: 24px;
     cursor: pointer;
@@ -65,6 +71,11 @@ body.dark-mode .card {
     border-radius: var(--border-radius);
     transition: var(--transition);
     position: relative;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+}
+
+body.dark-mode .theme-button {
+    background: rgba(36, 36, 36, 0.9);
 }
 
 .light-mode .theme-button .sun-icon {
@@ -85,7 +96,40 @@ body.dark-mode .card {
 
 .theme-button:hover {
     transform: scale(1.1);
-    background-color: rgba(74, 21, 36, 0.1);
+}
+
+/* Contact Button - Neu */
+.contact-button-wrapper {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    z-index: 999;
+}
+
+.contact-button {
+    background: var(--accent);
+    color: white;
+    border: none;
+    padding: 15px 25px;
+    border-radius: 50px;
+    cursor: pointer;
+    font-size: 16px;
+    font-weight: 600;
+    box-shadow: 0 4px 15px rgba(74, 21, 36, 0.3);
+    transition: var(--transition);
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.contact-button:hover {
+    background: var(--accent-hover);
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(74, 21, 36, 0.4);
+}
+
+.contact-button i {
+    font-size: 18px;
 }
 
 /* Container */
@@ -192,7 +236,7 @@ body.dark-mode .card {
     border: 1px solid var(--border-light);
 }
 
-.dark-mode .social-link {
+body.dark-mode .social-link {
     background-color: var(--card-dark);
     border-color: var(--border-dark);
 }
@@ -202,11 +246,20 @@ body.dark-mode .card {
     box-shadow: 0 8px 25px rgba(74, 21, 36, 0.15);
 }
 
+body.dark-mode .social-link:hover {
+    box-shadow: 0 8px 25px rgba(255, 255, 255, 0.1);
+}
+
 .social-icon {
-    width: 40px;
-    height: 40px;
-    border-radius: 8px;
+    width: 50px;
+    height: 50px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 12px;
     transition: var(--transition);
+    font-size: 24px;
+    color: white;
 }
 
 .social-icon.github { background-color: #24292e; }
@@ -238,6 +291,7 @@ body.dark-mode .card {
 .cta-button:hover {
     transform: translateY(-2px);
     box-shadow: 0 6px 20px rgba(74, 21, 36, 0.4);
+    background-color: var(--accent-hover);
 }
 
 /* Projects Grid */
@@ -256,7 +310,7 @@ body.dark-mode .card {
     border: 1px solid var(--border-light);
 }
 
-.dark-mode .project-card {
+body.dark-mode .project-card {
     background-color: var(--card-dark);
     border-color: var(--border-dark);
 }
@@ -264,6 +318,10 @@ body.dark-mode .card {
 .project-card:hover {
     transform: translateY(-4px);
     box-shadow: 0 8px 25px rgba(74, 21, 36, 0.15);
+}
+
+body.dark-mode .project-card:hover {
+    box-shadow: 0 8px 25px rgba(255, 255, 255, 0.1);
 }
 
 .project-title {
@@ -304,6 +362,113 @@ body.dark-mode .card {
     transform: translateY(-1px);
 }
 
+/* Contact Form */
+.contact-section {
+    max-width: 600px;
+    margin: 0 auto;
+}
+
+.contact-form {
+    background-color: var(--card-light);
+    border: 1px solid var(--border-light);
+    padding: 40px;
+    border-radius: var(--border-radius);
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
+}
+
+body.dark-mode .contact-form {
+    background-color: var(--card-dark);
+    border-color: var(--border-dark);
+}
+
+.form-group {
+    margin-bottom: 25px;
+}
+
+.form-group label {
+    display: block;
+    margin-bottom: 8px;
+    font-weight: 600;
+    color: var(--accent);
+}
+
+.form-input,
+.form-textarea {
+    width: 100%;
+    padding: 12px 16px;
+    border: 2px solid var(--border-light);
+    border-radius: var(--border-radius);
+    font-size: 1rem;
+    background-color: transparent;
+    color: inherit;
+    transition: var(--transition);
+    font-family: var(--font-family);
+}
+
+body.dark-mode .form-input,
+body.dark-mode .form-textarea {
+    border-color: var(--border-dark);
+    background-color: #2a2a2a;
+}
+
+.form-textarea {
+    resize: vertical;
+    min-height: 150px;
+}
+
+.form-input:focus,
+.form-textarea:focus {
+    outline: none;
+    border-color: var(--accent);
+}
+
+.submit-button {
+    background-color: var(--accent);
+    color: white;
+    border: none;
+    padding: 14px 35px;
+    border-radius: var(--border-radius);
+    cursor: pointer;
+    font-size: 1.1rem;
+    font-weight: 600;
+    transition: var(--transition);
+    width: 100%;
+}
+
+.submit-button:hover {
+    background-color: var(--accent-hover);
+    transform: translateY(-2px);
+    box-shadow: 0 4px 15px rgba(74, 21, 36, 0.3);
+}
+
+.success-message {
+    background-color: #d4edda;
+    color: #155724;
+    padding: 15px;
+    border-radius: var(--border-radius);
+    margin-top: 20px;
+    text-align: center;
+}
+
+body.dark-mode .success-message {
+    background-color: #1e4620;
+    color: #90ee90;
+}
+
+.error-message {
+    background-color: #f8d7da;
+    color: #721c24;
+    padding: 15px;
+    border-radius: var(--border-radius);
+    margin-top: 20px;
+    text-align: center;
+}
+
+body.dark-mode .error-message {
+    background-color: #4a1f1f;
+    color: #ff6b6b;
+}
+
 /* Admin Styles */
 .login-section {
     display: flex;
@@ -322,7 +487,7 @@ body.dark-mode .card {
     box-shadow: 0 8px 25px rgba(74, 21, 36, 0.1);
 }
 
-.dark-mode .login-card {
+body.dark-mode .login-card {
     background-color: var(--card-dark);
     border-color: var(--border-dark);
 }
@@ -350,8 +515,9 @@ body.dark-mode .card {
     transition: var(--transition);
 }
 
-.dark-mode .login-input {
+body.dark-mode .login-input {
     border-color: var(--border-dark);
+    background-color: #2a2a2a;
 }
 
 .login-input:focus {
@@ -374,13 +540,6 @@ body.dark-mode .card {
 .login-button:hover {
     transform: translateY(-2px);
     box-shadow: 0 4px 15px rgba(74, 21, 36, 0.3);
-}
-
-.error-message {
-    color: #dc3545;
-    text-align: center;
-    margin-top: 15px;
-    font-size: 0.9rem;
 }
 
 /* Admin Controls */
@@ -415,7 +574,7 @@ body.dark-mode .card {
     margin-bottom: 30px;
 }
 
-.dark-mode .project-form {
+body.dark-mode .project-form {
     background-color: var(--card-dark);
     border-color: var(--border-dark);
 }
@@ -424,46 +583,6 @@ body.dark-mode .card {
     margin-bottom: 25px;
     color: var(--accent);
     font-size: 1.5rem;
-}
-
-.form-group {
-    margin-bottom: 20px;
-}
-
-.form-group label {
-    display: block;
-    margin-bottom: 8px;
-    font-weight: 600;
-    color: var(--accent);
-}
-
-.form-input,
-.form-textarea {
-    width: 100%;
-    padding: 12px 16px;
-    border: 2px solid var(--border-light);
-    border-radius: var(--border-radius);
-    font-size: 1rem;
-    background-color: transparent;
-    color: inherit;
-    transition: var(--transition);
-    font-family: var(--font-family);
-}
-
-.dark-mode .form-input,
-.dark-mode .form-textarea {
-    border-color: var(--border-dark);
-}
-
-.form-textarea {
-    resize: vertical;
-    min-height: 100px;
-}
-
-.form-input:focus,
-.form-textarea:focus {
-    outline: none;
-    border-color: var(--accent);
 }
 
 .form-buttons {
@@ -497,15 +616,16 @@ body.dark-mode .card {
     transition: var(--transition);
 }
 
-.dark-mode .cancel-button {
+body.dark-mode .cancel-button {
     border-color: var(--border-dark);
+    color: var(--text-dark);
 }
 
 .cancel-button:hover {
     background-color: var(--border-light);
 }
 
-.dark-mode .cancel-button:hover {
+body.dark-mode .cancel-button:hover {
     background-color: var(--border-dark);
 }
 
@@ -524,7 +644,7 @@ body.dark-mode .card {
     transition: var(--transition);
 }
 
-.dark-mode .admin-project-card {
+body.dark-mode .admin-project-card {
     background-color: var(--card-dark);
     border-color: var(--border-dark);
 }
@@ -621,6 +741,15 @@ body.dark-mode .card {
     .admin-project-actions {
         justify-content: center;
     }
+
+    .contact-button {
+        padding: 12px 20px;
+        font-size: 14px;
+    }
+
+    .contact-form {
+        padding: 25px;
+    }
 }
 
 @media (max-width: 480px) {
@@ -634,6 +763,11 @@ body.dark-mode .card {
 
     .theme-switch {
         top: 15px;
+        right: 15px;
+    }
+
+    .contact-button-wrapper {
+        bottom: 15px;
         right: 15px;
     }
 

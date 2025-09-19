@@ -23,9 +23,9 @@ document.addEventListener('DOMContentLoaded', function() {
 
     // EmailJS Konfiguration
     // WICHTIG: Ersetzen Sie diese Werte mit Ihren eigenen EmailJS-Daten
-    const EMAILJS_SERVICE_ID = 'YOUR_SERVICE_ID'; // z.B. 'service_abc123'
-    const EMAILJS_TEMPLATE_ID = 'YOUR_TEMPLATE_ID'; // z.B. 'template_xyz789'
-    const EMAILJS_PUBLIC_KEY = 'YOUR_PUBLIC_KEY'; // z.B. 'user_abc123def456'
+    const EMAILJS_SERVICE_ID = 'service_aikor1v';
+    const EMAILJS_TEMPLATE_ID = 'template_479bro7';
+    const EMAILJS_PUBLIC_KEY = 'm1azVOeFwpN09U08Z';
 
     // EmailJS initialisieren
     emailjs.init(EMAILJS_PUBLIC_KEY);

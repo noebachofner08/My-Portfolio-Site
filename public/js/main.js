@@ -23,14 +23,6 @@ document.addEventListener('DOMContentLoaded', function() {
         window.location.href = 'projects.html';
     });
 
-    // Contact Button
-    const contactBtn = document.getElementById('contact-btn');
-    if (contactBtn) {
-        contactBtn.addEventListener('click', function() {
-            window.location.href = 'contact.html';
-        });
-    }
-
     // Page Animation
     body.classList.add('fade-in');
 });

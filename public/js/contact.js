@@ -23,9 +23,9 @@ document.addEventListener('DOMContentLoaded', function() {
 
     // EmailJS Konfiguration
     // WICHTIG: Ersetzen Sie diese Werte mit Ihren eigenen EmailJS-Daten
-    const EMAILJS_SERVICE_ID = 'service_aikor1v';
-    const EMAILJS_TEMPLATE_ID = 'template_479bro7';
-    const EMAILJS_PUBLIC_KEY = 'm1azVOeFwpN09U08Z';
+    const EMAILJS_SERVICE_ID = 'YOUR_SERVICE_ID';
+    const EMAILJS_TEMPLATE_ID = 'YOUR_TEMPLATE_ID';
+    const EMAILJS_PUBLIC_KEY = 'YOUR_PUBLIC_KEY';
 
     // EmailJS initialisieren
     emailjs.init(EMAILJS_PUBLIC_KEY);
@@ -41,7 +41,7 @@ document.addEventListener('DOMContentLoaded', function() {
             from_name: document.getElementById('name').value,
             from_email: document.getElementById('email').value,
             message: document.getElementById('message').value,
-            to_name: 'Noé Bachofner', // Ihr Name
+            to_name: 'Noé Bachofner',
         };
 
         // Disable submit button

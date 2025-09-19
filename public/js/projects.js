@@ -38,9 +38,17 @@ document.addEventListener('DOMContentLoaded', function() {
         window.location.href = 'index.html';
     });
 
-    // GitHub Configuration - HIER ANPASSEN!
-    const GITHUB_OWNER = 'noebachofner08'; // Ihr GitHub Username
-    const GITHUB_REPO = 'my-own-website';      // Ihr Repository Name
+    // Contact Button
+    const contactBtn = document.getElementById('contact-btn');
+    if (contactBtn) {
+        contactBtn.addEventListener('click', function() {
+            window.location.href = 'contact.html';
+        });
+    }
+
+    // GitHub Configuration
+    const GITHUB_OWNER = 'noebachofner08';
+    const GITHUB_REPO = 'my-own-website';
 
     // Load Projects
     loadProjects();
@@ -90,11 +98,11 @@ document.addEventListener('DOMContentLoaded', function() {
                 <p class="project-description">${escapeHtml(project.description)}</p>
                 <div class="project-links">
                     <a href="${escapeHtml(project.github)}" target="_blank" rel="noopener" class="project-link">
-                        <span>📦</span> GitHub
+                        <i class="fab fa-github"></i> GitHub
                     </a>
                     ${project.demo ? `
                         <a href="${escapeHtml(project.demo)}" target="_blank" rel="noopener" class="project-link">
-                            <span>🚀</span> Demo
+                            <i class="fas fa-rocket"></i> Demo
                         </a>
                     ` : ''}
                 </div>

@@ -5,6 +5,14 @@ document.addEventListener('DOMContentLoaded', function() {
     const savedTheme = localStorage.getItem('theme') || 'light';
     body.className = savedTheme + '-mode';
 
+    // Contact Button
+    const contactBtn = document.getElementById('contact-btn');
+    if (contactBtn) {
+        contactBtn.addEventListener('click', function() {
+            window.location.href = 'contact.html';
+        });
+    }
+
     // Moderne UTF-8 Base64 Encoding/Decoding Funktionen
     function utf8ToBase64(str) {
         const encoder = new TextEncoder();
@@ -32,9 +40,9 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     });
 
-    // GitHub API Configuration - HIER ANPASSEN!
-    const GITHUB_OWNER = 'noebachofner08'; // Ihr GitHub Username
-    const GITHUB_REPO = 'my-own-website';      // Ihr Repository Name
+    // GitHub API Configuration
+    const GITHUB_OWNER = 'noebachofner08';
+    const GITHUB_REPO = 'my-own-website';
     const ADMIN_PASSWORD_HASH = 'ecd71870d1963316a97e3ac3408c9835ad8cf0f3c1bc703527c30265534f75ae';
 
     // Elements
@@ -302,11 +310,11 @@ document.addEventListener('DOMContentLoaded', function() {
                 <p class="project-description">${escapeHtml(project.description)}</p>
                 <div class="project-links">
                     <a href="${escapeHtml(project.github)}" target="_blank" rel="noopener" class="project-link">
-                        <span>📦</span> GitHub
+                        <i class="fab fa-github"></i> GitHub
                     </a>
                     ${project.demo ? `
                         <a href="${escapeHtml(project.demo)}" target="_blank" rel="noopener" class="project-link">
-                            <span>🚀</span> Demo
+                            <i class="fas fa-rocket"></i> Demo
                         </a>
                     ` : ''}
                 </div>

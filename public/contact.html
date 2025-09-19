@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kontakt - Portfolio</title>
+
+    <link rel="icon" type="image/x-icon" href="favicon.ico">
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <!-- EmailJS SDK -->
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/email.min.js"></script>
+</head>
+<body class="light-mode">
+<div class="theme-switch">
+    <button id="theme-toggle" class="theme-button">
+        <span class="sun-icon">☀️</span>
+        <span class="moon-icon">🌙</span>
+    </button>
+</div>
+
+<div class="contact-button-wrapper">
+    <button id="contact-btn" class="contact-button">
+        <i class="fas fa-envelope"></i>
+        <span>Kontakt</span>
+    </button>
+</div>
+
+<div class="container">
+    <header class="page-header">
+        <button id="back-btn" class="back-button">← Zurück</button>
+        <h1 class="page-title">Kontakt</h1>
+    </header>
+
+    <main class="main-content">
+        <section class="contact-section">
+            <h2 class="section-title">Schreiben Sie mir eine Nachricht</h2>
+            <form id="contact-form" class="contact-form">
+                <div class="form-group">
+                    <label for="name">Name:</label>
+                    <input type="text" id="name" name="name" class="form-input" required>
+                </div>
+                <div class="form-group">
+                    <label for="email">E-Mail:</label>
+                    <input type="email" id="email" name="email" class="form-input" required>
+                </div>
+                <div class="form-group">
+                    <label for="message">Nachricht:</label>
+                    <textarea id="message" name="message" class="form-textarea" required minlength="10"></textarea>
+                </div>
+                <button type="submit" class="submit-button">
+                    <i class="fas fa-paper-plane"></i> Nachricht senden
+                </button>
+            </form>
+            <div id="form-message" style="display: none;"></div>
+        </section>
+    </main>
+</div>
+
+<script src="js/contact.js"></script>
+</body>
+</html>
